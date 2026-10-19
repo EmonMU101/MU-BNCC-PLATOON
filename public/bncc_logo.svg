@@ -1,0 +1,25 @@
+<svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <path id="bnccTopArc" d="M 45 250 A 205 205 0 1 1 455 250" fill="none" />
+    <path id="bnccBottomArc" d="M 85 348 A 205 205 0 0 0 415 348" fill="none" />
+  </defs>
+  <circle cx="250" cy="250" r="245" fill="#D8232A" stroke="#D8232A" stroke-width="2" />
+  <circle cx="250" cy="250" r="241" fill="#1C1B1A" />
+  <circle cx="250" cy="250" r="174" fill="#FFE000" stroke="#D8232A" stroke-width="6.5" />
+  <text fill="#FFE000" font-size="36.5" font-weight="800" font-family="system-ui, -apple-system, sans-serif" letter-spacing="1.2">
+    <textPath href="#bnccTopArc" startOffset="50%" text-anchor="middle">Knowledge &amp; Discipline</textPath>
+  </text>
+  <g transform="translate(48, 328) rotate(-22)">
+    <polygon points="0,-16 4.7,-4.9 16.7,-3.2 7.8,4.9 10.3,16.8 0,10.8 -10.3,16.8 -7.8,4.9 -16.7,-3.2 -4.7,-4.9" fill="#FFE000" />
+  </g>
+  <g transform="translate(452, 328) rotate(22)">
+    <polygon points="0,-16 4.7,-4.9 16.7,-3.2 7.8,4.9 10.3,16.8 0,10.8 -10.3,16.8 -7.8,4.9 -16.7,-3.2 -4.7,-4.9" fill="#FFE000" />
+  </g>
+  <text fill="#FFE000" font-size="38" font-weight="800" font-family="system-ui, -apple-system, sans-serif" letter-spacing="1.8">
+    <textPath href="#bnccBottomArc" startOffset="50%" text-anchor="middle">The Volunteers</textPath>
+  </text>
+  <polygon points="250,68 172,208 250,264 328,208" fill="#E1251B" />
+  <polygon points="172,208 94,336 250,336 250,264" fill="#1C3F94" />
+  <polygon points="328,208 250,264 250,336 406,336" fill="#009FE3" />
+  <text x="250" y="396" text-anchor="middle" fill="#1C1B1A" font-size="56" font-weight="900" font-family="system-ui, -apple-system, sans-serif" letter-spacing="2.5">BNCC</text>
+</svg>

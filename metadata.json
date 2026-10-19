@@ -1,0 +1,6 @@
+{
+  "name": "MU BNCC Official Portal",
+  "description": "Official web portal of Metropolitan University Bangladesh National Cadet Corps (MU BNCC) Platoon. Grooming future leaders through academic excellence, discipline, and voluntary service.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,353 @@
+{
+  "entities": {
+    "Notice": {
+      "title": "Notice",
+      "description": "Urgent broadcast notices and bulletins for the platoon",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "text": { "type": "string" },
+        "category": { "type": "string", "description": "Notice category: Emergency, General, Training Update" },
+        "isActive": { "type": "boolean" },
+        "author": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "text", "isActive"]
+    },
+    "Event": {
+      "title": "Event",
+      "description": "Platoon training, parade, camp, and duty events",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "date": { "type": "string" },
+        "displayDate": { "type": "string" },
+        "time": { "type": "string" },
+        "venue": { "type": "string" },
+        "description": { "type": "string" },
+        "instructorOrLead": { "type": "string" },
+        "mandatoryTurnout": { "type": "string" },
+        "spotsOrAttendance": { "type": "string" },
+        "isUpcoming": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "title", "category", "date", "venue"]
+    },
+    "AdminProfile": {
+      "title": "AdminProfile",
+      "description": "Authenticated platoon leaders profile",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string" },
+        "lastLogin": { "type": "string" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "CadetProfile": {
+      "title": "CadetProfile",
+      "description": "Authenticated member cadet training records and duty rosters",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "cadetId": { "type": "string", "description": "Unique Cadet ID e.g. MU-BNCC-001" },
+        "fullName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "emergencyContact": { "type": "string" },
+        "bloodGroup": { "type": "string" },
+        "department": { "type": "string" },
+        "currentSemester": { "type": "string", "description": "Semester format X.Y e.g. 3.1" },
+        "currentRank": { "type": "string" },
+        "height": { "type": "string" },
+        "weight": { "type": "string" },
+        "profilePicture": { "type": "string" },
+        "isVerified": { "type": "boolean", "description": "Admin verification status before profile is public" },
+        "manualAttendance": { "type": "array" },
+        "serviceHonors": { "type": "array" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["cadetId", "fullName", "email", "currentSemester", "currentRank", "isVerified"]
+    },
+    "Highlight": {
+      "title": "Highlight",
+      "description": "Platoon Highlights CMS record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "badge": { "type": "string" },
+        "category": { "type": "string" },
+        "metricValue": { "type": "string" },
+        "order": { "type": "number" }
+      },
+      "required": ["id", "title", "description"]
+    },
+    "FieldRecord": {
+      "title": "FieldRecord",
+      "description": "Platoon Field Records and quantitative operational metrics CMS",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" },
+        "value": { "type": "number" },
+        "suffix": { "type": "string" },
+        "note": { "type": "string" },
+        "iconName": { "type": "string" },
+        "order": { "type": "number" }
+      },
+      "required": ["id", "label", "value"]
+    },
+    "PlatoonMilestone": {
+      "title": "PlatoonMilestone",
+      "description": "Key Platoon Milestones with timeline dates and deployment status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "titleBn": { "type": "string" },
+        "date": { "type": "string" },
+        "category": { "type": "string" },
+        "description": { "type": "string" },
+        "descriptionBn": { "type": "string" },
+        "location": { "type": "string" },
+        "badge": { "type": "string" },
+        "isDeployed": { "type": "boolean" },
+        "order": { "type": "number" }
+      },
+      "required": ["id", "title", "date", "description"]
+    },
+    "RegimentalHonor": {
+      "title": "RegimentalHonor",
+      "description": "Regimental Honors, distinctions, citations and trophies",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "titleBn": { "type": "string" },
+        "recipientOrPlatoon": { "type": "string" },
+        "awardYear": { "type": "string" },
+        "conferredBy": { "type": "string" },
+        "citation": { "type": "string" },
+        "medalType": { "type": "string" },
+        "isDeployed": { "type": "boolean" },
+        "order": { "type": "number" }
+      },
+      "required": ["id", "title", "awardYear", "citation"]
+    },
+    "CadetStory": {
+      "title": "CadetStory",
+      "description": "Cadet micro-post statement with interactive reactions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "cadetId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorRank": { "type": "string" },
+        "content": { "type": "string" },
+        "reactionsCount": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "cadetId", "content"]
+    },
+    "CadetBlog": {
+      "title": "CadetBlog",
+      "description": "Cadet Experience blog post with reactions and comments",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "cadetId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorRank": { "type": "string" },
+        "category": { "type": "string" },
+        "reactionsCount": { "type": "number" },
+        "comments": { "type": "array" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "title", "content", "cadetId"]
+    },
+    "FeaturedCadet": {
+      "title": "FeaturedCadet",
+      "description": "Cadet of the Month spotlight honorees with achievements, photo, and quote",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "month": { "type": "string" },
+        "fullName": { "type": "string" },
+        "rank": { "type": "string" },
+        "rankAbbr": { "type": "string" },
+        "cadetNumber": { "type": "string" },
+        "department": { "type": "string" },
+        "batch": { "type": "string" },
+        "section": { "type": "string" },
+        "photoUrl": { "type": "string" },
+        "quote": { "type": "string" },
+        "citation": { "type": "string" },
+        "achievementSummary": { "type": "string" },
+        "trainingHours": { "type": "number" },
+        "communityHours": { "type": "number" },
+        "attendanceRate": { "type": "number" },
+        "meritScore": { "type": "number" },
+        "distinctionBadge": { "type": "string" },
+        "isCurrent": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "month", "fullName", "rank", "quote", "achievementSummary"]
+    },
+    "EventRsvp": {
+      "title": "EventRsvp",
+      "description": "Cadet attendance RSVP status for an operational event or drill",
+      "type": "object",
+      "properties": {
+        "eventId": { "type": "string" },
+        "uid": { "type": "string" },
+        "status": { "type": "string", "enum": ["attending", "not_attending"] },
+        "cadetName": { "type": "string" },
+        "cadetRank": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["eventId", "uid", "status"]
+    },
+    "GalleryPhoto": {
+      "title": "GalleryPhoto",
+      "description": "Archived and live training session photographs uploaded by platoon leadership",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "titleBn": { "type": "string" },
+        "category": { "type": "string" },
+        "categoryLabel": { "type": "string" },
+        "categoryLabelBn": { "type": "string" },
+        "date": { "type": "string" },
+        "displayDate": { "type": "string" },
+        "year": { "type": "number" },
+        "location": { "type": "string" },
+        "locationBn": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "thumbnailUrl": { "type": "string" },
+        "caption": { "type": "string" },
+        "captionBn": { "type": "string" },
+        "platoonOrSquad": { "type": "string" },
+        "tags": { "type": "array" },
+        "aspectRatio": { "type": "string", "enum": ["landscape", "portrait", "square"] },
+        "featured": { "type": "boolean" },
+        "uploadedAt": { "type": "string" }
+      },
+      "required": ["id", "title", "category", "imageUrl"]
+    },
+    "BlogPost": {
+      "title": "BlogPost",
+      "description": "Article or short story post with title, content, author, and timestamp fields",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "titleBn": { "type": "string" },
+        "content": { "type": "string" },
+        "author": { "type": "string" },
+        "authorRole": { "type": "string" },
+        "authorAvatar": { "type": "string" },
+        "postType": { "type": "string", "enum": ["blog", "story"] },
+        "category": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "published": { "type": "boolean" },
+        "coverImage": { "type": "string" },
+        "likesCount": { "type": "number" },
+        "tags": { "type": "array" }
+      },
+      "required": ["title", "content", "author", "timestamp"]
+    },
+    "PostComment": {
+      "title": "PostComment",
+      "description": "User feedback and comments on individual blog posts and stories",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "postId": { "type": "string", "description": "ID of the target blog or story post" },
+        "postType": { "type": "string", "enum": ["blog", "story", "post"] },
+        "authorId": { "type": "string", "description": "UID of the authenticated author" },
+        "authorName": { "type": "string" },
+        "authorRank": { "type": "string" },
+        "authorAvatar": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "postId", "authorId", "authorName", "content", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/notices/{noticeId}": {
+      "schema": "Notice",
+      "description": "Urgent announcement ticker notices for the portal"
+    },
+    "/events/{eventId}": {
+      "schema": "Event",
+      "description": "Operational parades, drills, camps, and community duties"
+    },
+    "/events/{eventId}/rsvps/{uid}": {
+      "schema": "EventRsvp",
+      "description": "Cadet attendance response records for a specific event"
+    },
+    "/admins/{uid}": {
+      "schema": "AdminProfile",
+      "description": "Platoon leader administrative accounts"
+    },
+    "/cadets/{uid}": {
+      "schema": "CadetProfile",
+      "description": "Individual member cadet profile, training progress, and assigned duties"
+    },
+    "/featured_cadets/{cadetId}": {
+      "schema": "FeaturedCadet",
+      "description": "Monthly spotlight featured cadet records displayed on the homepage"
+    },
+    "/highlights/{highlightId}": {
+      "schema": "Highlight",
+      "description": "Dynamic platoon highlights CMS records"
+    },
+    "/field_records/{recordId}": {
+      "schema": "FieldRecord",
+      "description": "Dynamic quantitative field records and operational stats"
+    },
+    "/milestones/{milestoneId}": {
+      "schema": "PlatoonMilestone",
+      "description": "Key platoon milestones and timeline archives"
+    },
+    "/regimental_honors/{honorId}": {
+      "schema": "RegimentalHonor",
+      "description": "Regimental honors, awards, citations and distinctions"
+    },
+    "/cadet_stories/{storyId}": {
+      "schema": "CadetStory",
+      "description": "Cadet micro-post statements with reaction counts"
+    },
+    "/cadet_blogs/{blogId}": {
+      "schema": "CadetBlog",
+      "description": "Cadet experience blogs with reactions and comments"
+    },
+    "/gallery_photos/{photoId}": {
+      "schema": "GalleryPhoto",
+      "description": "Platoon training, event, and regimental gallery photos"
+    },
+    "/posts/{postId}": {
+      "schema": "BlogPost",
+      "description": "Blog and short story postings with title, content, author, and timestamp"
+    },
+    "/comments/{commentId}": {
+      "schema": "PostComment",
+      "description": "User feedback and comments on individual blog posts and stories"
+    }
+  }
+}

@@ -1,0 +1,166 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper: Check if user is authenticated with Firebase Auth
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Helper: Checks if user's email is verified or authenticated via Google OAuth
+    function isEmailVerified() {
+      return isSignedIn() && (
+        request.auth.token.email_verified == true ||
+        request.auth.token.firebase.sign_in_provider == 'google.com'
+      );
+    }
+
+    // Super Admin: Permanent root authority for the platoon portal
+    // Strict requirement: email matches AND email must be verified to prevent unverified spoofing
+    function isSuperAdmin() {
+      return isSignedIn() && (
+        (request.auth.token.email == 'rahadahmedemon11@gmail.com' && isEmailVerified()) ||
+        request.auth.token.get('super_admin', false) == true
+      );
+    }
+
+    // Role-Based Access Control (RBAC):
+    // Verifies that the authenticated user is Super Admin or possesses the 'admin' custom claim
+    function hasAdminClaim() {
+      return isSignedIn() && (
+        isSuperAdmin() ||
+        request.auth.token.get('admin', false) == true ||
+        request.auth.token.get('role', '') == 'admin'
+      );
+    }
+
+    // Urgent notices and broadcasts for the platoon portal
+    // Public read; management operations (create, update, delete) require 'admin' custom claim or Super Admin
+    match /notices/{noticeId} {
+      allow read: if true;
+      allow write: if hasAdminClaim();
+    }
+
+    // Operational events, parades, and camps
+    // Public read; management operations require 'admin' custom claim or Super Admin
+    match /events/{eventId} {
+      allow read: if true;
+      allow write: if hasAdminClaim();
+
+      // Cadet Attendance RSVPs
+      match /rsvps/{uid} {
+        allow read: if true;
+        allow write: if isSignedIn() && request.auth.uid == uid;
+      }
+    }
+
+    // Platoon officer administrative profiles & sub-admin authorizations
+    // Only signed-in users can view admin status; users can submit their own request; Super Admin approves and manages
+    match /admins/{docId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && (
+        request.resource.data.email == request.auth.token.email ||
+        isSuperAdmin()
+      );
+      allow update, delete: if isSuperAdmin();
+    }
+
+    // Member cadet training records, authentication, and profiles
+    // - Public can view verified cadets (needed for public roster on About Us)
+    // - Cadets can create and update their own profile
+    // - Only administrators can set/modify `isVerified` status or delete cadet records
+    match /cadets/{uid} {
+      allow read: if true;
+      allow create: if isSignedIn() && (
+        (request.auth.uid == uid && (!('isVerified' in request.resource.data) || request.resource.data.isVerified == false)) ||
+        hasAdminClaim()
+      );
+      allow update: if hasAdminClaim() || (
+        isSignedIn() && request.auth.uid == uid &&
+        (!('isVerified' in request.resource.data) || request.resource.data.isVerified == resource.data.isVerified)
+      );
+      allow delete: if hasAdminClaim();
+    }
+
+    // Dynamic Platoon Highlights CMS (Admins only for write)
+    match /highlights/{highlightId} {
+      allow read: if true;
+      allow write: if hasAdminClaim();
+    }
+
+    // Dynamic Field Records & Operational Metrics CMS (Admins only for write)
+    match /field_records/{recordId} {
+      allow read: if true;
+      allow write: if hasAdminClaim();
+    }
+
+    // Key Platoon Milestones CMS (Admins only for write)
+    match /milestones/{milestoneId} {
+      allow read: if true;
+      allow write: if hasAdminClaim();
+    }
+
+    // Regimental Honors & Distinctions CMS (Admins only for write)
+    match /regimental_honors/{honorId} {
+      allow read: if true;
+      allow write: if hasAdminClaim();
+    }
+
+    // Featured cadet of the semester spotlight records (Admins only for write)
+    match /featured_cadets/{cadetId} {
+      allow read: if true;
+      allow write: if hasAdminClaim();
+    }
+
+    // Photo Gallery CMS (Past training sessions, drills, ceremonies) (Admins only for write)
+    match /gallery_photos/{photoId} {
+      allow read: if true;
+      allow write: if hasAdminClaim();
+    }
+
+    // Blog and Short Story Postings (title, content, author, timestamp) (Admins only for write)
+    match /posts/{postId} {
+      allow read: if true;
+      allow write: if hasAdminClaim();
+
+      // Subcollection comments on individual posts
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if isSignedIn() && request.resource.data.content is string && request.resource.data.content.size() <= 2000;
+        allow update, delete: if isSignedIn() && (request.auth.uid == resource.data.authorId || hasAdminClaim());
+      }
+    }
+
+    // Cadet Stories Micro-posting and testimonials
+    // Public can read; visitors/cadets can submit content up to 2500 chars; admins manage
+    match /cadet_stories/{storyId} {
+      allow read: if true;
+      allow create: if request.resource.data.content is string && request.resource.data.content.size() <= 2500;
+      allow update, delete: if hasAdminClaim();
+    }
+
+    // Cadet Experience Blogs (Admins only for write)
+    match /cadet_blogs/{blogId} {
+      allow read: if true;
+      allow write: if hasAdminClaim();
+    }
+
+    // Top-level reader feedback and comments
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if isSignedIn() && request.resource.data.content is string && request.resource.data.content.size() <= 2000;
+      allow update, delete: if isSignedIn() && (request.auth.uid == resource.data.authorId || hasAdminClaim());
+    }
+
+    // System Settings & Recruitment Semester Timelines (Admins only for write)
+    match /system_settings/{settingId} {
+      allow read: if true;
+      allow write: if hasAdminClaim();
+    }
+
+    // Default deny for all other collections and unmapped paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
